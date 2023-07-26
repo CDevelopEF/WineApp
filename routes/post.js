@@ -38,6 +38,6 @@ router.delete('/deletepost/:id', async (req, res) => {
         res.status(401).send({message: 'Bad Request'})
     }
     const postDeleted = await deletePost(parseInt(id));
-    res.status(400).send({data: postDeleted})
+    res.status(404).send({data: postDeleted})
 })
 module.exports = router;

@@ -1,10 +1,9 @@
-const {body, validationResult, param} = require('express-validator');
 var { PrismaClient }                  = require('@prisma/client');
 var prisma                            = new PrismaClient();
 
 
 async function updateProduct(req) {
-    
+
     const {id}                 = req.params;
     const {count, name, price} = req.body;
     const parsedId             = parseInt(id, 10);
