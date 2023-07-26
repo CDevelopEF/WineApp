@@ -3,7 +3,7 @@ var prisma         = new PrismaClient()
 const { body, validationResult } = require('express-validator');
 /**
  * Crea en la base de datos un nuevo producto.
- * @param {object} body - Producto para agregar.
+ * @param {object} req - Request obj.
  * @returns {Promise<object[]>} - Producto creado.
  * @throws {Error} - Si ocurre un error durante la consulta a la base de datos.
  */

@@ -14,17 +14,6 @@ const prisma                   = new PrismaClient();
 async function createpost(req) {
 const {title, content} = req.body
 
-// const validationRules = [
-//     body('title').isString().trim().notEmpty().withMessage("El campo no puede estar vacio"),
-//     body('content').isString().trim().notEmpty().withMessage("El campo no puede estar vacio"),
-// ]
-
-// await Promise.all(validationRules.map( validation => validation.run(req)));
-
-// const posibleError = validationResult(req);
-// if(!posibleError.isEmpty()){
-//     return posibleError;
-// }
 const isExist = await prisma.post.findUnique({where: {
     title,
 }})

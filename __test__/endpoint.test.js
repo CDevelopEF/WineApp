@@ -41,7 +41,6 @@ describe('UPDATE TEST', () => {
           };
 
         const response = await request(app).put('/products/modproduct/4').send(updatedData);
-        console.log(response);
         expect(response.status).toBe(201);
         expect(response.body). toHaveProperty('data');
         expect(response.body.data).toHaveProperty('name');

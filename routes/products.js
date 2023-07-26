@@ -7,8 +7,7 @@ var validate        = require('../middleware/validation');
 var addProduct      = require('../controllers/addproduct');
 var getProducts     = require('../controllers/getproducts');
 var updateProduct   = require('../controllers/updateproduct');
-var deletedProduct  = require('../controllers/deleteproduct');
-const deleteProduct = require('../controllers/deleteproduct');
+var deleteProduct   = require('../controllers/deleteproduct');
 
 router.post('/addproduct', async (req, res) => {
     const producto = await addProduct(req);
