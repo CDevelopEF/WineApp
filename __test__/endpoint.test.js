@@ -18,7 +18,7 @@ test('DELETE /post/deletepost/24 debe devolver string', async () => {
     expect(response.body.data).toBe("No existe post con id: 24");
 
 });
-describe('Test para el proyect', () => {
+describe('UPDATE TEST', () => {
     test('UPDATE -> Existe la propiedad data y devuelve un objeto', async() => {
         const response = await request(app).put('/post/updatepost/25');
         expect(response.status).toBe(201);
@@ -31,5 +31,20 @@ describe('Test para el proyect', () => {
         expect(response.status).toBe(201);
         expect(response.body).toHaveProperty('data')
         expect(response.body.data).toBe("El post de id: 999 no existe.")
+    })
+    test('UPDATE -> existe la propiedad data y devuelve el elemento actualizado', async () => {
+        const updatedData = {
+            id: 4,
+            name: 'Producto actualizado',
+            count: 20,
+            price: 25.99,
+          };
+
+        const response = await request(app).put('/products/modproduct/4').send(updatedData);
+        console.log(response);
+        expect(response.status).toBe(201);
+        expect(response.body). toHaveProperty('data');
+        expect(response.body.data).toHaveProperty('name');
+        expect(response.body.data).toStrictEqual(updatedData);
     })
 })

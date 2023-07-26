@@ -12,7 +12,7 @@ const productValidationRules = [
 
 const validate = (req, res, next) => {
   // Ejecuta todas las reglas de validación en parámetros y body
-  Promise.all(productValidationRules.map(validator => validator.run(req))).then(() => {
+  Promise.all(productValidationRules.map(validator => validator.run(req)))
     // Verifica si hay errores de validación
     const errors = validationResult(req);
     if (errors.isEmpty()) {
@@ -21,7 +21,7 @@ const validate = (req, res, next) => {
     
     // Hay errores, responde con los errores de validación
     return res.status(422).json({ errors: errors.array() });
-  });
+  
 };
 
 module.exports = validate;

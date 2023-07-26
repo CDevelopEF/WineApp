@@ -21,7 +21,7 @@ router.get('/getproducts', async (req, res) => {
 })
 router.put('/modproduct/:id', validate, async (req, res) => {
     const updatedProducts = await updateProduct(req);
-    res.status(200).send({data : updatedProducts})
+    res.status(201).send({data : updatedProducts})
 })
 
 router.delete('/delproduct/:id', async (req, res) => {
