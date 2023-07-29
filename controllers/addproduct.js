@@ -1,5 +1,5 @@
-var {PrismaClient} = require('@prisma/client');
-var prisma         = new PrismaClient()
+var {PrismaClient}               = require('@prisma/client');
+var prisma                       = new PrismaClient()
 const { body, validationResult } = require('express-validator');
 /**
  * Crea en la base de datos un nuevo producto.
