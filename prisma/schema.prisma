@@ -30,14 +30,17 @@ model Products {
 }
 
 model Users {
-  id Int @id @default(autoincrement())
-  username String @unique
-  email String @unique
+  id          Int      @id @default(autoincrement())
+  username    String   @unique
+  password    String
+  email       String   @unique
   profilePhoto String?
-  create_at DateTime @default(now())
+  role        Role     @relation(fields: [id], references: [id])
+  create_at   DateTime @default(now())
+  roleId      Int      
 }
-
 model Role {
-  id Int @id @default(autoincrement())
-  role_value String
+  id         Int      @id @default(autoincrement())
+  role_value String   @unique
+  user       Users?
 }
