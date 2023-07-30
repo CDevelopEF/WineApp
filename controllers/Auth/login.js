@@ -2,10 +2,19 @@ const {PrismaClient} = require('@prisma/client');
 var prisma           = new PrismaClient();
 var bcrypt           = require('bcrypt');
                        require('dotenv').config();
+const jwt            = require('jsonwebtoken');
+
+
+
+const generateTokens = (user) => {
+    const accessTokenSigned = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, {expiresIn: '15m'});
+    const refreshTokenSigned = jwt.sign(user, process.env.REFRESH_SECRET_TOKEN, {expiresIn: '7d'});
+    return {accessTokenSigned, refreshTokenSigned};
+}
 
 const login = async (req, res) => {
 
-    const {user, email, password} = req.body;
+    const {password,email} = req.body;
 
     try {
 
@@ -26,8 +35,12 @@ const login = async (req, res) => {
         if(!isPasswordCorrect){
             return res.status(401).json({data: 'user o password incorrecta'});
         }
-        const {password: as, create_at, ...data} = userDataBase;
-        return res.status(200).json({data: data})
+
+        const {accessTokenSigned, refreshTokenSigned} = generateTokens(userDataBase)
+        return res.status(200).json({
+            jwt: refreshTokenSigned,
+            accessToken: accessTokenSigned
+        })
 
 
     }catch(err){
