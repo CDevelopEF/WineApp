@@ -3,7 +3,7 @@ var router     = express.Router();
 
 //middleware
 var validation_post = require('../middleware/validation_post');
-
+var verifiedToken   = require('../middleware/Auth/verifyToken');
 //controllers
 var createpost = require('../controllers/createpost');
 var getAllPost = require('../controllers/getallpost');
@@ -16,9 +16,10 @@ router.post('/createpost', validation_post, async (req, res) => {
     return res.status(203).send({data: resp});
 })
 
-router.get('/allpost', async (req, res) => {
+router.get('/allpost', verifiedToken, async (req, res) => {
     const { take, skip } = req.query;
-  
+    const token = req.token;
+    console.log(token)
     // Evaluar sino vienen nulos las Query
     const numberOfPost = !isNaN(take) ? parseInt(take) : 5;
     const skipPost     = !isNaN(skip) ? parseInt(skip) : 0; 

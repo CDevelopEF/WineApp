@@ -5,7 +5,7 @@ var bcrypt           = require('bcrypt');
 const jwt            = require('jsonwebtoken');
 
 
-
+//Agregar esta funcionalidad a la carpeta Utils dentro del proyecto
 const generateTokens = (user) => {
     const accessTokenSigned = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, {expiresIn: '15m'});
     const refreshTokenSigned = jwt.sign(user, process.env.REFRESH_SECRET_TOKEN, {expiresIn: '7d'});
@@ -14,13 +14,16 @@ const generateTokens = (user) => {
 
 const login = async (req, res) => {
 
-    const {password,email} = req.body;
+    const {password,email, id} = req.body;
 
     try {
 
         const userDataBase = await prisma.users.findUnique({
             where: {
                 email: email
+            },
+            include:{
+                role: true
             }
         })
 
@@ -28,7 +31,7 @@ const login = async (req, res) => {
            return res.status(401).json({data: 'User not found!'})
         }
 
-        const { password: pass, id, name } = userDataBase;
+        const { password: pass } = userDataBase;
 
         const isPasswordCorrect = await bcrypt.compare(password, pass);
         
@@ -36,10 +39,12 @@ const login = async (req, res) => {
             return res.status(401).json({data: 'user o password incorrecta'});
         }
 
-        const {accessTokenSigned, refreshTokenSigned} = generateTokens(userDataBase)
+        const {accessTokenSigned, refreshTokenSigned} = generateTokens(userDataBase);
+        const {role} = userDataBase;
+        const {role_value} = role; //METODO PARA OBTENER EL ROL y despues evaluarlo tenerlo en cuenta en middleware isAdmin()
         return res.status(200).json({
-            jwt: refreshTokenSigned,
-            accessToken: accessTokenSigned
+            jwt: accessTokenSigned,
+            refreshToken: refreshTokenSigned
         })
 
 
